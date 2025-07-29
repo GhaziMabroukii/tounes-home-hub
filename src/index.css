@@ -8,105 +8,75 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Neo-Brutalism Base Colors */
-    --background: 0 0% 98%;
-    --foreground: 0 0% 8%;
+    /* Modern Glassmorphism Design System */
+    --background: 240 10% 98%;
+    --foreground: 240 10% 15%;
 
-    /* Bold Primary Colors */
-    --primary: 51 100% 50%;        /* Electric Yellow */
-    --primary-foreground: 0 0% 8%;
+    /* Primary Brand Colors - Tunisian inspired */
+    --primary: 15 86% 53%;          /* Warm orange-red */
+    --primary-foreground: 0 0% 98%;
 
-    /* Aggressive Secondary Colors */
-    --secondary: 0 84% 55%;        /* Bold Red */
+    /* Secondary Colors */
+    --secondary: 200 95% 55%;       /* Mediterranean blue */
     --secondary-foreground: 0 0% 98%;
 
-    /* Electric Accents */
-    --accent: 195 100% 50%;        /* Cyan Blue */
-    --accent-foreground: 0 0% 8%;
+    /* Accent Colors */
+    --accent: 160 84% 39%;          /* Olive green */
+    --accent-foreground: 0 0% 98%;
 
-    /* Lime Highlight */
-    --highlight: 84 100% 45%;      /* Lime Green */
-    --highlight-foreground: 0 0% 8%;
+    /* Success/Highlight */
+    --success: 142 76% 36%;         /* Emerald green */
+    --success-foreground: 0 0% 98%;
 
-    /* Brutal Orange */
-    --warning: 30 100% 50%;        /* Orange */
-    --warning-foreground: 0 0% 8%;
+    /* Warning */
+    --warning: 38 92% 50%;          /* Golden yellow */
+    --warning-foreground: 240 10% 15%;
 
-    /* Pure Destruction */
-    --destructive: 0 100% 50%;     /* Pure Red */
+    /* Destructive */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    /* Neo-Brutal Neutrals */
-    --muted: 0 0% 90%;
-    --muted-foreground: 0 0% 20%;
+    /* Neutral System */
+    --muted: 240 4% 95%;
+    --muted-foreground: 240 4% 46%;
 
-    --card: 0 0% 98%;
-    --card-foreground: 0 0% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 8%;
+    --popover-foreground: 240 10% 15%;
 
-    /* Harsh Borders */
-    --border: 0 0% 8%;             /* Black borders */
-    --input: 0 0% 98%;
-    --ring: 51 100% 50%;           /* Yellow focus ring */
+    /* Borders & Inputs */
+    --border: 240 6% 90%;
+    --input: 240 6% 97%;
+    --ring: 15 86% 53%;
 
-    /* No Radius - Pure Brutalism */
-    --radius: 0;
+    /* Glass Effects */
+    --glass-bg: 255 255 255 / 0.1;
+    --glass-border: 255 255 255 / 0.2;
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 
-    --sidebar-background: 0 0% 98%;
+    /* Smooth radius */
+    --radius: 16px;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(15 86% 53%) 0%, hsl(25 95% 63%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(200 95% 55%) 0%, hsl(220 95% 65%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(15 86% 53% / 0.1) 0%, hsl(200 95% 55% / 0.1) 100%);
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 240 10% 9%;
+    --foreground: 240 5% 96%;
+    --primary: 15 86% 58%;
+    --secondary: 200 95% 60%;
+    --accent: 160 84% 44%;
+    --success: 142 76% 41%;
+    --muted: 240 4% 15%;
+    --muted-foreground: 240 4% 65%;
+    --card: 240 10% 12%;
+    --border: 240 6% 20%;
+    --input: 240 6% 18%;
   }
 }
 
@@ -116,62 +86,70 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground font-bold;
+    @apply bg-background text-foreground font-normal antialiased;
+    background: var(--gradient-hero);
+    min-height: 100vh;
   }
 }
 
-/* Neo-Brutalism Custom Styles */
+/* Modern Glassmorphism Components */
 @layer components {
-  .brutal-shadow {
-    box-shadow: 6px 6px 0px hsl(var(--border));
+  .glass {
+    background: rgba(var(--glass-bg));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(var(--glass-border));
+    box-shadow: var(--glass-shadow);
   }
   
-  .brutal-shadow-sm {
-    box-shadow: 3px 3px 0px hsl(var(--border));
+  .glass-card {
+    @apply glass rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl;
   }
   
-  .brutal-shadow-lg {
-    box-shadow: 12px 12px 0px hsl(var(--border));
+  .glass-button {
+    @apply glass rounded-xl px-6 py-3 font-semibold transition-all duration-300 hover:scale-105 active:scale-95;
   }
   
-  .brutal-border {
-    border: 4px solid hsl(var(--border));
-  }
-  
-  .brutal-border-thin {
-    border: 2px solid hsl(var(--border));
+  .glass-input {
+    @apply glass rounded-xl px-4 py-3 border-0 bg-white/10 placeholder:text-muted-foreground focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-primary/50;
   }
 
-  .brutal-text {
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .brutal-button {
-    @apply brutal-border brutal-shadow font-black uppercase tracking-wider px-6 py-3 transition-all duration-75;
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
-  .brutal-button:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 4px 4px 0px hsl(var(--border));
-  }
-  
-  .brutal-button:active {
-    transform: translate(4px, 4px);
-    box-shadow: 2px 2px 0px hsl(var(--border));
+  .gradient-button {
+    background: var(--gradient-primary);
+    @apply text-white rounded-xl px-6 py-3 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95;
   }
 
-  .brutal-card {
-    @apply brutal-border brutal-shadow-sm bg-card p-6;
-  }
-
-  .brutal-input {
-    @apply brutal-border-thin bg-input px-4 py-3 font-bold placeholder:font-normal;
+  .floating-element {
+    animation: float 6s ease-in-out infinite;
   }
   
-  .brutal-input:focus {
-    outline: 3px solid hsl(var(--ring));
-    outline-offset: 2px;
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+  
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .pulse-gentle {
+    animation: pulseGentle 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulseGentle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
   }
 }

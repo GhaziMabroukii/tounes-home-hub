@@ -1,94 +1,136 @@
 import { Button } from "@/components/ui/button";
-import { MapPin, Mail, Phone, Facebook, Instagram } from "lucide-react";
+import { MapPin, Mail, Phone, Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-foreground text-background py-16">
-      <div className="container mx-auto px-4">
+    <footer className="glass border-t border-white/10 mt-20">
+      <div className="container mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
-          <div>
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="brutal-border bg-primary text-primary-foreground p-2 brutal-shadow-sm">
-                <MapPin className="h-6 w-6" />
+          <div className="space-y-4">
+            <div className="flex items-center space-x-3">
+              <div className="gradient-button p-2 rounded-xl">
+                <MapPin className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-2xl font-black uppercase tracking-wider">
-                EKRILI
-              </h3>
+              <div>
+                <h3 className="text-2xl font-bold gradient-text">
+                  Ekrili
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  Location intelligente
+                </p>
+              </div>
             </div>
-            <p className="font-bold text-sm mb-4">
-              LA PLATEFORME DE LOCATION INTELLIGENTE POUR LA TUNISIE
+            <p className="text-sm text-muted-foreground max-w-xs">
+              La première plateforme de location intelligente adaptée aux étudiants et familles tunisiennes.
             </p>
             <div className="flex space-x-3">
-              <Button variant="outline" size="icon" className="bg-background text-foreground">
-                <Facebook className="h-4 w-4" />
+              <Button variant="ghost" size="icon" className="hover:text-primary">
+                <Facebook className="h-5 w-5" />
               </Button>
-              <Button variant="outline" size="icon" className="bg-background text-foreground">
-                <Instagram className="h-4 w-4" />
+              <Button variant="ghost" size="icon" className="hover:text-primary">
+                <Instagram className="h-5 w-5" />
+              </Button>
+              <Button variant="ghost" size="icon" className="hover:text-primary">
+                <Twitter className="h-5 w-5" />
+              </Button>
+              <Button variant="ghost" size="icon" className="hover:text-primary">
+                <Linkedin className="h-5 w-5" />
               </Button>
             </div>
           </div>
 
           {/* For Tenants */}
           <div>
-            <h4 className="text-lg font-black uppercase tracking-wider mb-4">
-              LOCATAIRES
+            <h4 className="text-lg font-bold mb-4 text-primary">
+              Locataires
             </h4>
-            <ul className="space-y-2 text-sm font-bold">
-              <li><a href="#" className="hover:text-primary transition-colors">CHERCHER UN BIEN</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">ESPACE ÉTUDIANT</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">ESPACE FAMILLE</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">MES FAVORIS</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">CONTRATS</a></li>
+            <ul className="space-y-3 text-sm">
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Rechercher un bien</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Espace étudiant</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Espace famille</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Mes favoris ❤️</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Contrats signés</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Messagerie</a></li>
             </ul>
           </div>
 
           {/* For Owners */}
           <div>
-            <h4 className="text-lg font-black uppercase tracking-wider mb-4">
-              PROPRIÉTAIRES
+            <h4 className="text-lg font-bold mb-4 text-secondary">
+              Propriétaires
             </h4>
-            <ul className="space-y-2 text-sm font-bold">
-              <li><a href="#" className="hover:text-primary transition-colors">POSTER UNE ANNONCE</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">TABLEAU DE BORD</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">GESTION CONTRATS</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">PAIEMENTS</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">STATISTIQUES</a></li>
+            <ul className="space-y-3 text-sm">
+              <li><a href="#" className="text-muted-foreground hover:text-secondary transition-colors">Publier une annonce</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-secondary transition-colors">Tableau de bord</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-secondary transition-colors">Gestion contrats</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-secondary transition-colors">Suivi paiements</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-secondary transition-colors">Statistiques 📊</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-secondary transition-colors">Badge "Super Hôte" 🚀</a></li>
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Contact & Support */}
           <div>
-            <h4 className="text-lg font-black uppercase tracking-wider mb-4">
-              CONTACT
+            <h4 className="text-lg font-bold mb-4 text-accent">
+              Support
             </h4>
-            <div className="space-y-3 text-sm font-bold">
-              <div className="flex items-center space-x-2">
-                <Mail className="h-4 w-4" />
-                <span>CONTACT@EKRILI.TN</span>
+            <div className="space-y-3 text-sm">
+              <div className="flex items-center space-x-3 text-muted-foreground">
+                <Mail className="h-4 w-4 text-accent" />
+                <span>contact@ekrili.tn</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <Phone className="h-4 w-4" />
+              <div className="flex items-center space-x-3 text-muted-foreground">
+                <Phone className="h-4 w-4 text-accent" />
                 <span>+216 XX XXX XXX</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <MapPin className="h-4 w-4" />
-                <span>TUNIS, TUNISIE</span>
+              <div className="flex items-center space-x-3 text-muted-foreground">
+                <MapPin className="h-4 w-4 text-accent" />
+                <span>Tunis, Tunisie 🇹🇳</span>
               </div>
+            </div>
+            
+            <div className="mt-6">
+              <h5 className="font-semibold mb-2 text-accent">Support 24/7</h5>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="#" className="hover:text-accent transition-colors">Centre d'aide</a></li>
+                <li><a href="#" className="hover:text-accent transition-colors">FAQ</a></li>
+                <li><a href="#" className="hover:text-accent transition-colors">Chat en direct</a></li>
+                <li><a href="#" className="hover:text-accent transition-colors">Signaler un problème</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Features Summary */}
+        <div className="mt-12 pt-8 border-t border-white/10">
+          <div className="grid md:grid-cols-3 gap-6 text-center">
+            <div className="glass-card">
+              <h5 className="font-bold text-primary mb-2">🔍 Recherche intelligente</h5>
+              <p className="text-xs text-muted-foreground">Géolocalisation précise + IA</p>
+            </div>
+            <div className="glass-card">
+              <h5 className="font-bold text-secondary mb-2">💬 Messagerie intégrée</h5>
+              <p className="text-xs text-muted-foreground">Chat temps réel + notifications</p>
+            </div>
+            <div className="glass-card">
+              <h5 className="font-bold text-accent mb-2">🛡️ Paiements sécurisés</h5>
+              <p className="text-xs text-muted-foreground">D17, Flouci + signature digitale</p>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t-4 border-background mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm font-bold">
-              © 2024 EKRILI. TOUS DROITS RÉSERVÉS.
+        <div className="mt-12 pt-8 border-t border-white/10">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p className="text-sm text-muted-foreground">
+              © 2024 Ekrili. Tous droits réservés. 🇹🇳 Fièrement tunisien.
             </p>
-            <div className="flex space-x-6 mt-4 md:mt-0 text-sm font-bold">
-              <a href="#" className="hover:text-primary transition-colors">CONDITIONS</a>
-              <a href="#" className="hover:text-primary transition-colors">CONFIDENTIALITÉ</a>
-              <a href="#" className="hover:text-primary transition-colors">AIDE</a>
+            <div className="flex space-x-6 text-sm">
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Conditions d'utilisation</a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Confidentialité</a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Cookies</a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Accessibilité</a>
             </div>
           </div>
         </div>
