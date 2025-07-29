@@ -2,41 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Ekrili Neo-Brutalism Design System - Bold, Raw, Unapologetic
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Neo-Brutalism Base Colors */
+    --background: 0 0% 98%;
+    --foreground: 0 0% 8%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Bold Primary Colors */
+    --primary: 51 100% 50%;        /* Electric Yellow */
+    --primary-foreground: 0 0% 8%;
+
+    /* Aggressive Secondary Colors */
+    --secondary: 0 84% 55%;        /* Bold Red */
+    --secondary-foreground: 0 0% 98%;
+
+    /* Electric Accents */
+    --accent: 195 100% 50%;        /* Cyan Blue */
+    --accent-foreground: 0 0% 8%;
+
+    /* Lime Highlight */
+    --highlight: 84 100% 45%;      /* Lime Green */
+    --highlight-foreground: 0 0% 8%;
+
+    /* Brutal Orange */
+    --warning: 30 100% 50%;        /* Orange */
+    --warning-foreground: 0 0% 8%;
+
+    /* Pure Destruction */
+    --destructive: 0 100% 50%;     /* Pure Red */
+    --destructive-foreground: 0 0% 98%;
+
+    /* Neo-Brutal Neutrals */
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 20%;
+
+    --card: 0 0% 98%;
+    --card-foreground: 0 0% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 8%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Harsh Borders */
+    --border: 0 0% 8%;             /* Black borders */
+    --input: 0 0% 98%;
+    --ring: 51 100% 50%;           /* Yellow focus ring */
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    /* No Radius - Pure Brutalism */
+    --radius: 0;
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +116,62 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-bold;
+  }
+}
+
+/* Neo-Brutalism Custom Styles */
+@layer components {
+  .brutal-shadow {
+    box-shadow: 6px 6px 0px hsl(var(--border));
+  }
+  
+  .brutal-shadow-sm {
+    box-shadow: 3px 3px 0px hsl(var(--border));
+  }
+  
+  .brutal-shadow-lg {
+    box-shadow: 12px 12px 0px hsl(var(--border));
+  }
+  
+  .brutal-border {
+    border: 4px solid hsl(var(--border));
+  }
+  
+  .brutal-border-thin {
+    border: 2px solid hsl(var(--border));
+  }
+
+  .brutal-text {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .brutal-button {
+    @apply brutal-border brutal-shadow font-black uppercase tracking-wider px-6 py-3 transition-all duration-75;
+  }
+  
+  .brutal-button:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 4px 4px 0px hsl(var(--border));
+  }
+  
+  .brutal-button:active {
+    transform: translate(4px, 4px);
+    box-shadow: 2px 2px 0px hsl(var(--border));
+  }
+
+  .brutal-card {
+    @apply brutal-border brutal-shadow-sm bg-card p-6;
+  }
+
+  .brutal-input {
+    @apply brutal-border-thin bg-input px-4 py-3 font-bold placeholder:font-normal;
+  }
+  
+  .brutal-input:focus {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 2px;
   }
 }
