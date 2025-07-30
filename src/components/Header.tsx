@@ -1,13 +1,43 @@
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { MapPin, Menu, Bell, Heart, User, Search } from "lucide-react";
+import { MapPin, Menu, Bell, Heart, User, Search, LogOut } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const authStatus = localStorage.getItem("isAuthenticated");
+    const email = localStorage.getItem("userEmail");
+    setIsAuthenticated(!!authStatus);
+    setUserEmail(email || "");
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userType");
+    localStorage.removeItem("userProfile");
+    setIsAuthenticated(false);
+    navigate("/");
+  };
+
   return (
     <header className="glass sticky top-0 z-50 border-b border-white/10">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3">
             <div className="gradient-button p-2 rounded-xl">
               <MapPin className="h-6 w-6 text-white" />
             </div>
@@ -19,51 +49,117 @@ const Header = () => {
                 Location intelligente
               </p>
             </div>
-          </div>
+          </Link>
 
           {/* Navigation */}
           <nav className="hidden lg:flex items-center space-x-6">
-            <a href="#" className="text-foreground hover:text-primary transition-colors font-medium">
+            <Link to="/search" className="text-foreground hover:text-primary transition-colors font-medium">
               Découvrir
-            </a>
-            <a href="#" className="text-foreground hover:text-primary transition-colors font-medium">
+            </Link>
+            <Link to="/search?filter=student" className="text-foreground hover:text-primary transition-colors font-medium">
               Pour étudiants
-            </a>
-            <a href="#" className="text-foreground hover:text-primary transition-colors font-medium">
+            </Link>
+            <Link to="/search?filter=family" className="text-foreground hover:text-primary transition-colors font-medium">
               Pour familles
-            </a>
-            <a href="#" className="text-foreground hover:text-primary transition-colors font-medium">
+            </Link>
+            <Link to="/dashboard" className="text-foreground hover:text-primary transition-colors font-medium">
               Louer mon bien
-            </a>
+            </Link>
           </nav>
 
           {/* User Actions */}
           <div className="flex items-center space-x-3">
-            {/* Notifications */}
-            <Button variant="ghost" size="icon" className="hidden md:flex relative">
-              <Bell className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 h-3 w-3 bg-primary rounded-full text-xs"></span>
-            </Button>
-            
-            {/* Favorites */}
-            <Button variant="ghost" size="icon" className="hidden md:flex">
-              <Heart className="h-5 w-5" />
-            </Button>
+            {isAuthenticated && (
+              <>
+                {/* Notifications */}
+                <Button variant="ghost" size="icon" className="hidden md:flex relative">
+                  <Bell className="h-5 w-5" />
+                  <span className="absolute -top-1 -right-1 h-3 w-3 bg-primary rounded-full text-xs"></span>
+                </Button>
+                
+                {/* Favorites */}
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="hidden md:flex"
+                  onClick={() => navigate("/favorites")}
+                >
+                  <Heart className="h-5 w-5" />
+                </Button>
+
+                {/* Messages */}
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="hidden md:flex"
+                  onClick={() => navigate("/messages")}
+                >
+                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </Button>
+              </>
+            )}
 
             {/* Search on mobile */}
-            <Button variant="ghost" size="icon" className="md:hidden">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="md:hidden"
+              onClick={() => navigate("/search")}
+            >
               <Search className="h-5 w-5" />
             </Button>
 
-            {/* Auth Buttons */}
-            <div className="hidden md:flex items-center space-x-2">
-              <Button variant="ghost" size="sm">
-                Connexion
-              </Button>
-              <Button variant="default" size="sm">
-                S'inscrire
-              </Button>
-            </div>
+            {/* Auth Buttons / User Menu */}
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                    <Avatar className="h-10 w-10">
+                      <AvatarFallback>
+                        {userEmail.substring(0, 2).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <div className="flex flex-col space-y-1 p-2">
+                    <p className="text-sm font-medium leading-none">{userEmail}</p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {localStorage.getItem("userType") || "utilisateur"}
+                    </p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+                    Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/search")}>
+                    Rechercher
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/messages")}>
+                    Messages
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/favorites")}>
+                    Favoris
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Déconnexion
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="hidden md:flex items-center space-x-2">
+                <Button variant="ghost" size="sm" onClick={() => navigate("/login")}>
+                  Connexion
+                </Button>
+                <Button variant="default" size="sm" onClick={() => navigate("/signup")}>
+                  S'inscrire
+                </Button>
+              </div>
+            )}
 
             {/* Mobile Menu */}
             <Button variant="ghost" size="icon" className="lg:hidden">
