@@ -152,10 +152,15 @@ const PropertyDetails = () => {
             {/* Images */}
             <Card className="glass-card mb-6">
               <CardContent className="p-0">
-                <div className="relative h-96 bg-muted rounded-lg overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Home className="h-16 w-16 text-muted-foreground" />
-                  </div>
+                  <div className="relative h-96 bg-muted rounded-lg overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10"></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center">
+                        <Home className="h-16 w-16 text-primary mx-auto mb-4" />
+                        <p className="text-foreground font-medium">Photos du bien</p>
+                        <p className="text-xs text-muted-foreground">Images haute résolution disponibles</p>
+                      </div>
+                    </div>
                   <div className="absolute bottom-4 right-4 flex space-x-2">
                     <Button variant="secondary" size="sm">
                       <Camera className="h-4 w-4 mr-2" />
@@ -236,9 +241,13 @@ const PropertyDetails = () => {
                 <CardTitle>Localisation et environs</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-48 bg-muted rounded-lg flex items-center justify-center mb-4">
-                  <MapPin className="h-8 w-8 text-muted-foreground" />
-                  <span className="ml-2 text-muted-foreground">Carte interactive</span>
+                <div className="h-48 bg-muted rounded-lg flex items-center justify-center mb-4 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20"></div>
+                  <div className="relative z-10 text-center">
+                    <MapPin className="h-8 w-8 text-primary mx-auto mb-2" />
+                    <span className="text-foreground font-medium">Carte interactive</span>
+                    <p className="text-xs text-muted-foreground mt-1">📍 {property.address}</p>
+                  </div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
@@ -310,7 +319,28 @@ const PropertyDetails = () => {
                     <MessageSquare className="h-4 w-4 mr-2" />
                     Contacter le propriétaire
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => {
+                      const isAuth = localStorage.getItem("isAuthenticated");
+                      if (!isAuth) {
+                        toast({
+                          title: "Connexion requise",
+                          description: "Connectez-vous pour planifier une visite.",
+                          variant: "destructive",
+                        });
+                        navigate("/login");
+                        return;
+                      }
+                      
+                      // Mock scheduling visit
+                      toast({
+                        title: "Demande envoyée",
+                        description: "Votre demande de visite a été envoyée au propriétaire.",
+                      });
+                    }}
+                  >
                     <Calendar className="h-4 w-4 mr-2" />
                     Planifier une visite
                   </Button>
@@ -390,7 +420,19 @@ const PropertyDetails = () => {
                 </div>
 
                 <div className="flex space-x-2 mt-4">
-                  <Button variant="outline" size="sm" className="flex-1">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="flex-1"
+                    onClick={() => {
+                      // Mock phone call
+                      window.open(`tel:${property.owner.phone}`, '_self');
+                      toast({
+                        title: "Appel en cours",
+                        description: `Appel vers ${property.owner.phone}`,
+                      });
+                    }}
+                  >
                     <Phone className="h-3 w-3 mr-1" />
                     Appeler
                   </Button>

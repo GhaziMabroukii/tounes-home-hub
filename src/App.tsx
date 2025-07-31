@@ -11,6 +11,11 @@ import Search from "./pages/Search";
 import PropertyDetails from "./pages/PropertyDetails";
 import Messages from "./pages/Messages";
 import NotFound from "./pages/NotFound";
+import Favorites from "./pages/Favorites";
+import AddProperty from "./pages/AddProperty";
+import ManageProperties from "./pages/ManageProperties";
+import Contracts from "./pages/Contracts";
+import Notifications from "./pages/Notifications";
 
 const queryClient = new QueryClient();
 
@@ -28,9 +33,11 @@ const App = () => (
           <Route path="/search" element={<Search />} />
           <Route path="/property/:id" element={<PropertyDetails />} />
           <Route path="/messages" element={<Messages />} />
-          <Route path="/favorites" element={<Search />} />
-          <Route path="/contracts" element={<Dashboard />} />
-          <Route path="/add-property" element={<Dashboard />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/add-property" element={<AddProperty />} />
+          <Route path="/manage-properties" element={<ManageProperties />} />
+          <Route path="/contracts" element={<Contracts />} />
+          <Route path="/notifications" element={<Notifications />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -112,12 +112,26 @@ const Search = () => {
   }, []);
 
   const handleLocationSearch = () => {
-    if (userLocation) {
-      // Mock: filter properties near user location
-      const nearbyProperties = mockProperties.filter(p => 
-        p.location.includes("Tunis") || p.location.includes("Ariana")
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation(position);
+          // Filter properties within 5km radius (mock calculation)
+          const nearbyProperties = mockProperties.filter(p => 
+            p.location.includes("Tunis") || p.location.includes("Ariana")
+          );
+          setFilteredProperties(nearbyProperties);
+          console.log("📍 Position trouvée:", position.coords.latitude, position.coords.longitude);
+        },
+        (error) => {
+          console.log("Erreur de géolocalisation:", error);
+          // Fallback to nearby properties
+          const nearbyProperties = mockProperties.filter(p => 
+            p.location.includes("Tunis") || p.location.includes("Ariana")
+          );
+          setFilteredProperties(nearbyProperties);
+        }
       );
-      setFilteredProperties(nearbyProperties);
     }
   };
 
@@ -281,7 +295,25 @@ const Search = () => {
           <h2 className="text-xl font-semibold">
             {filteredProperties.length} bien(s) trouvé(s)
           </h2>
-          <Select defaultValue="price">
+          <Select defaultValue="price" onValueChange={(value) => {
+            let sorted = [...filteredProperties];
+            switch(value) {
+              case "price":
+                sorted.sort((a, b) => a.price - b.price);
+                break;
+              case "price-desc":
+                sorted.sort((a, b) => b.price - a.price);
+                break;
+              case "rating":
+                sorted.sort((a, b) => b.rating - a.rating);
+                break;
+              case "distance":
+                // Mock distance sorting
+                sorted.sort((a, b) => parseInt(a.distance) - parseInt(b.distance));
+                break;
+            }
+            setFilteredProperties(sorted);
+          }}>
             <SelectTrigger className="w-48">
               <SelectValue />
             </SelectTrigger>
@@ -314,7 +346,16 @@ const Search = () => {
                     className="absolute top-2 right-2 bg-white/20 backdrop-blur-sm"
                     onClick={(e) => {
                       e.stopPropagation();
-                      // Add to favorites logic
+                      // Add to favorites
+                      const favorites = JSON.parse(localStorage.getItem("userFavorites") || "[]");
+                      const isAlreadyFavorite = favorites.some((fav: any) => fav.id === property.id);
+                      
+                      if (!isAlreadyFavorite) {
+                        const newFavorite = { ...property, addedToFavorites: new Date().toISOString() };
+                        favorites.push(newFavorite);
+                        localStorage.setItem("userFavorites", JSON.stringify(favorites));
+                        console.log("❤️ Ajouté aux favoris:", property.title);
+                      }
                     }}
                   >
                     <Heart className="h-4 w-4" />

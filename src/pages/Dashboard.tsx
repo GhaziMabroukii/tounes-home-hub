@@ -94,10 +94,20 @@ const Dashboard = () => {
                 Bienvenue, {userProfile?.firstName} {userProfile?.lastName}
               </p>
             </div>
-            <Button onClick={() => navigate("/add-property")} className="flex items-center space-x-2">
-              <Plus className="h-4 w-4" />
-              <span>Ajouter un bien</span>
-            </Button>
+            <div className="flex space-x-2">
+              <Button onClick={() => navigate("/add-property")} className="flex items-center space-x-2">
+                <Plus className="h-4 w-4" />
+                <span>Ajouter un bien</span>
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={() => navigate("/manage-properties")} 
+                className="flex items-center space-x-2"
+              >
+                <Home className="h-4 w-4" />
+                <span>Gérer mes biens</span>
+              </Button>
+            </div>
           </div>
 
           {/* Stats */}
@@ -168,7 +178,11 @@ const Dashboard = () => {
                       <div className="text-sm text-muted-foreground">
                         {property.views} vues • {property.messages} messages
                       </div>
-                      <Button variant="ghost" size="sm">
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => navigate("/manage-properties")}
+                      >
                         Gérer
                       </Button>
                     </div>
