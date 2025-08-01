@@ -16,6 +16,7 @@ import AddProperty from "./pages/AddProperty";
 import ManageProperties from "./pages/ManageProperties";
 import Contracts from "./pages/Contracts";
 import Notifications from "./pages/Notifications";
+import CreateContract from "./pages/CreateContract";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/add-property" element={<AddProperty />} />
           <Route path="/manage-properties" element={<ManageProperties />} />
           <Route path="/contracts" element={<Contracts />} />
+          <Route path="/create-contract" element={<CreateContract />} />
           <Route path="/notifications" element={<Notifications />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

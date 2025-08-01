@@ -113,7 +113,7 @@ const ManageProperties = () => {
   const filteredProperties = properties.filter(property => {
     const matchesSearch = property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          property.location.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus = !statusFilter || property.status === statusFilter;
+    const matchesStatus = !statusFilter || statusFilter === "all" || property.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
@@ -258,7 +258,7 @@ const ManageProperties = () => {
                   <SelectValue placeholder="Tous les statuts" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Tous les statuts</SelectItem>
+                  <SelectItem value="all">Tous les statuts</SelectItem>
                   <SelectItem value="Disponible">Disponible</SelectItem>
                   <SelectItem value="Occupé">Occupé</SelectItem>
                   <SelectItem value="En rénovation">En rénovation</SelectItem>

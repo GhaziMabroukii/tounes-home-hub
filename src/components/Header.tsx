@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { MapPin, Menu, Bell, Heart, User, Search, LogOut } from "lucide-react";
+import { MapPin, Menu, Bell, Heart, User, Search, LogOut, Home, Settings, FileText } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { 
   DropdownMenu,
@@ -14,13 +14,16 @@ import {
 const Header = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userEmail, setUserEmail] = useState("");
+  const [userType, setUserType] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const authStatus = localStorage.getItem("isAuthenticated");
     const email = localStorage.getItem("userEmail");
+    const type = localStorage.getItem("userType");
     setIsAuthenticated(!!authStatus);
     setUserEmail(email || "");
+    setUserType(type || "");
   }, []);
 
   const handleLogout = () => {
@@ -145,9 +148,29 @@ const Header = () => {
                   <DropdownMenuItem onClick={() => navigate("/messages")}>
                     Messages
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/favorites")}>
-                    Favoris
-                  </DropdownMenuItem>
+                   <DropdownMenuItem onClick={() => navigate("/favorites")}>
+                     Favoris
+                   </DropdownMenuItem>
+                   {userType === "owner" && (
+                     <>
+                       <DropdownMenuItem onClick={() => navigate("/add-property")}>
+                         <Home className="mr-2 h-4 w-4" />
+                         Louer mon bien
+                       </DropdownMenuItem>
+                       <DropdownMenuItem onClick={() => navigate("/manage-properties")}>
+                         <Settings className="mr-2 h-4 w-4" />
+                         Gérer mes biens
+                       </DropdownMenuItem>
+                       <DropdownMenuItem onClick={() => navigate("/contracts")}>
+                         <FileText className="mr-2 h-4 w-4" />
+                         Contrats
+                       </DropdownMenuItem>
+                     </>
+                   )}
+                   <DropdownMenuItem onClick={() => navigate("/notifications")}>
+                     <Bell className="mr-2 h-4 w-4" />
+                     Notifications
+                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout}>
                     <LogOut className="mr-2 h-4 w-4" />

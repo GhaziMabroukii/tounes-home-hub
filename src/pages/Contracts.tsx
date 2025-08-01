@@ -128,7 +128,7 @@ const Contracts = () => {
     const matchesSearch = contract.propertyTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          contract.propertyLocation.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          (searchField && searchField.toLowerCase().includes(searchQuery.toLowerCase()));
-    const matchesStatus = !statusFilter || contract.status === statusFilter;
+    const matchesStatus = !statusFilter || statusFilter === "all" || contract.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
@@ -288,7 +288,7 @@ const Contracts = () => {
                   <SelectValue placeholder="Tous les statuts" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Tous les statuts</SelectItem>
+                  <SelectItem value="all">Tous les statuts</SelectItem>
                   <SelectItem value="Actif">Actif</SelectItem>
                   <SelectItem value="En attente de signature">En attente de signature</SelectItem>
                   <SelectItem value="En cours de négociation">En cours de négociation</SelectItem>

@@ -81,7 +81,19 @@ const HeroSection = () => {
                   </select>
                 </div>
 
-                <Button variant="default" size="lg" className="lg:w-auto">
+                <Button 
+                  variant="default" 
+                  size="lg" 
+                  className="lg:w-auto"
+                  onClick={() => {
+                    const isAuth = localStorage.getItem("isAuthenticated");
+                    if (isAuth) {
+                      window.location.href = "/search";
+                    } else {
+                      window.location.href = "/login";
+                    }
+                  }}
+                >
                   <Search className="h-5 w-5 mr-2" />
                   Rechercher
                 </Button>
@@ -153,6 +165,39 @@ const HeroSection = () => {
                 </div>
               )}
             </div>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <Button 
+              size="lg" 
+              className="hero-button"
+              onClick={() => {
+                const isAuth = localStorage.getItem("isAuthenticated");
+                if (isAuth) {
+                  window.location.href = "/search";
+                } else {
+                  window.location.href = "/login";
+                }
+              }}
+            >
+              Découvrir les biens
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="hero-button-outline"
+              onClick={() => {
+                const isAuth = localStorage.getItem("isAuthenticated");
+                if (isAuth) {
+                  window.location.href = "/add-property";
+                } else {
+                  window.location.href = "/login";
+                }
+              }}
+            >
+              Louer mon bien
+            </Button>
           </div>
 
           {/* Stats */}

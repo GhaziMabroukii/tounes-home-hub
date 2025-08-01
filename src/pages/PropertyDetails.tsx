@@ -25,6 +25,7 @@ import {
   Camera
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import PropertyReviews from "@/components/PropertyReviews";
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -436,13 +437,27 @@ const PropertyDetails = () => {
                     <Phone className="h-3 w-3 mr-1" />
                     Appeler
                   </Button>
-                  <Button variant="outline" size="sm" className="flex-1">
-                    <Mail className="h-3 w-3 mr-1" />
-                    Email
-                  </Button>
+                   <Button 
+                     variant="outline" 
+                     size="sm" 
+                     className="flex-1"
+                     onClick={() => {
+                       window.open(`mailto:${property.owner.email}`, '_self');
+                       toast({
+                         title: "Email ouvert",
+                         description: `Email vers ${property.owner.email}`,
+                       });
+                     }}
+                   >
+                     <Mail className="h-3 w-3 mr-1" />
+                     {property.owner.email}
+                   </Button>
                 </div>
               </CardContent>
             </Card>
+
+            {/* Reviews Section */}
+            <PropertyReviews propertyId={parseInt(id || "1")} />
           </div>
         </div>
       </div>

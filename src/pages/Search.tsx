@@ -145,7 +145,7 @@ const Search = () => {
       );
     }
 
-    if (propertyType) {
+    if (propertyType && propertyType !== "all") {
       filtered = filtered.filter(p => p.type === propertyType);
     }
 
@@ -246,7 +246,7 @@ const Search = () => {
                       <SelectValue placeholder="Tous types" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Tous types</SelectItem>
+                      <SelectItem value="all">Tous types</SelectItem>
                       <SelectItem value="studio">Studio</SelectItem>
                       <SelectItem value="apartment">Appartement</SelectItem>
                       <SelectItem value="villa">Villa</SelectItem>

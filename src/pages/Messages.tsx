@@ -112,16 +112,41 @@ const Messages = () => {
 
   const selectedChatData = mockChats.find(chat => chat.id === selectedChat);
 
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
-      // Add message logic here
-      setNewMessage("");
+  const [conversationMessages, setConversationMessages] = useState<any[]>([
+    {
+      id: 1,
+      sender: "Ahmed Karim",
+      content: "Bonjour ! Je vois que vous êtes intéressé par mon studio près de l'INSAT.",
+      timestamp: new Date().toISOString(),
+      type: 'text'
+    },
+    {
+      id: 2,
+      sender: localStorage.getItem("userEmail") || "Vous",
+      content: "Bonjour, oui exactement ! Le studio est-il toujours disponible ?",
+      timestamp: new Date().toISOString(),
+      type: 'text'
     }
+  ]);
+
+  const handleSendMessage = (message: any) => {
+    const newMsg = {
+      ...message,
+      id: Date.now(),
+      timestamp: new Date().toISOString()
+    };
+    setConversationMessages(prev => [...prev, newMsg]);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSendMessage();
+    if (e.key === 'Enter' && newMessage.trim()) {
+      const message = {
+        sender: localStorage.getItem("userEmail") || "Vous",
+        content: newMessage,
+        type: 'text'
+      };
+      handleSendMessage(message);
+      setNewMessage("");
     }
   };
 
@@ -267,7 +292,20 @@ const Messages = () => {
                       onKeyPress={handleKeyPress}
                       className="flex-1"
                     />
-                    <Button onClick={handleSendMessage} disabled={!newMessage.trim()}>
+                    <Button 
+                      onClick={() => {
+                        if (newMessage.trim()) {
+                          const message = {
+                            sender: localStorage.getItem("userEmail") || "Vous",
+                            content: newMessage,
+                            type: 'text'
+                          };
+                          handleSendMessage(message);
+                          setNewMessage("");
+                        }
+                      }} 
+                      disabled={!newMessage.trim()}
+                    >
                       <Send className="h-4 w-4" />
                     </Button>
                   </div>
