@@ -65,9 +65,11 @@ const Header = () => {
             <Link to="/search?filter=family" className="text-foreground hover:text-primary transition-colors font-medium">
               Pour familles
             </Link>
-            <Link to="/dashboard" className="text-foreground hover:text-primary transition-colors font-medium">
-              Louer mon bien
-            </Link>
+            {(userType === "owner" || !isAuthenticated) && (
+              <Link to="/dashboard" className="text-foreground hover:text-primary transition-colors font-medium">
+                Louer mon bien
+              </Link>
+            )}
           </nav>
 
           {/* User Actions */}
@@ -170,6 +172,10 @@ const Header = () => {
                    <DropdownMenuItem onClick={() => navigate("/notifications")}>
                      <Bell className="mr-2 h-4 w-4" />
                      Notifications
+                   </DropdownMenuItem>
+                   <DropdownMenuItem onClick={() => navigate("/profile")}>
+                     <User className="mr-2 h-4 w-4" />
+                     Mon profil
                    </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout}>

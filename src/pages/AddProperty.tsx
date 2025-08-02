@@ -44,11 +44,12 @@ const AddProperty = () => {
       minimumStay: "",
       maximumStay: ""
     },
-    pricing: {
-      deposit: "",
-      fees: "",
-      utilities: ""
-    }
+        pricing: {
+          deposit: "",
+          fees: "",
+          utilities: "",
+          utilitiesIncluded: false
+        }
   });
 
   const [newRule, setNewRule] = useState("");
@@ -95,7 +96,9 @@ const AddProperty = () => {
     { value: "villa", label: "Villa" },
     { value: "house", label: "Maison" },
     { value: "vacation", label: "Maison de vacances" },
-    { value: "room", label: "Chambre" }
+    { value: "room", label: "Chambre" },
+    { value: "office", label: "Bureau" },
+    { value: "shop", label: "Local commercial" }
   ];
 
   const handleInputChange = (field: string, value: any) => {
@@ -496,6 +499,26 @@ const AddProperty = () => {
                     onChange={(e) => handleInputChange('pricing.deposit', e.target.value)}
                     placeholder="450"
                   />
+                </div>
+
+                <div>
+                  <Label htmlFor="fees">Frais de dossier (TND)</Label>
+                  <Input
+                    id="fees"
+                    type="number"
+                    value={formData.pricing.fees}
+                    onChange={(e) => handleInputChange('pricing.fees', e.target.value)}
+                    placeholder="50"
+                  />
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="utilitiesIncluded"
+                    checked={formData.pricing.utilitiesIncluded}
+                    onCheckedChange={(checked) => handleInputChange('pricing.utilitiesIncluded', checked)}
+                  />
+                  <Label htmlFor="utilitiesIncluded">Charges incluses</Label>
                 </div>
 
                 <div>

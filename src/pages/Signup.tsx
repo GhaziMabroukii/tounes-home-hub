@@ -6,7 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MapPin, GraduationCap, Users, Building } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { MapPin, GraduationCap, Users, Building, Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Signup = () => {
@@ -18,9 +19,17 @@ const Signup = () => {
     lastName: "",
     phone: "",
     userType: "",
+    cinNumber: "",
+    profilePicture: null as File | null,
+    acceptTerms: false,
     studentInfo: {
       university: "",
       studentId: ""
+    },
+    socialAccounts: {
+      facebook: "",
+      instagram: "",
+      linkedin: ""
     }
   });
   const navigate = useNavigate();
@@ -48,18 +57,42 @@ const Signup = () => {
       return;
     }
 
+    if (!formData.acceptTerms) {
+      toast({
+        title: "Erreur",
+        description: "Vous devez accepter les conditions générales d'utilisation.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     // Mock registration
     localStorage.setItem("isAuthenticated", "true");
     localStorage.setItem("userEmail", formData.email);
     localStorage.setItem("userType", formData.userType);
     localStorage.setItem("userProfile", JSON.stringify(formData));
     
-    toast({
-      title: "Inscription réussie!",
-      description: "Votre compte a été créé avec succès.",
-    });
+    // Special message for owners
+    if (formData.userType === "owner") {
+      toast({
+        title: "Compte créé - En attente de validation",
+        description: "Votre compte propriétaire est en attente de validation par un administrateur. L'activation définitive se fera après paiement.",
+      });
+    } else {
+      toast({
+        title: "Inscription réussie!",
+        description: "Votre compte a été créé avec succès.",
+      });
+    }
     
     navigate("/dashboard");
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFormData({ ...formData, profilePicture: file });
+    }
   };
 
   return (
@@ -145,7 +178,7 @@ const Signup = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="phone">Téléphone</Label>
+              <Label htmlFor="phone">Téléphone *</Label>
               <Input
                 id="phone"
                 value={formData.phone}
@@ -153,6 +186,62 @@ const Signup = () => {
                 placeholder="+216 XX XXX XXX"
                 required
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="cinNumber">3 derniers chiffres de la CIN/Passeport *</Label>
+              <Input
+                id="cinNumber"
+                value={formData.cinNumber}
+                onChange={(e) => setFormData({ ...formData, cinNumber: e.target.value })}
+                placeholder="123"
+                maxLength={3}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="profilePicture">Photo de profil (facultative)</Label>
+              <Input
+                id="profilePicture"
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+              />
+              {formData.profilePicture && (
+                <p className="text-sm text-success">✓ Photo sélectionnée: {formData.profilePicture.name}</p>
+              )}
+            </div>
+
+            {/* Social Accounts */}
+            <div className="space-y-4 p-4 glass-card rounded-lg">
+              <h3 className="font-semibold">Comptes sociaux (facultatif)</h3>
+              <div className="grid grid-cols-1 gap-2">
+                <Input
+                  placeholder="Profil Facebook"
+                  value={formData.socialAccounts.facebook}
+                  onChange={(e) => setFormData({ 
+                    ...formData, 
+                    socialAccounts: { ...formData.socialAccounts, facebook: e.target.value }
+                  })}
+                />
+                <Input
+                  placeholder="Profil Instagram"
+                  value={formData.socialAccounts.instagram}
+                  onChange={(e) => setFormData({ 
+                    ...formData, 
+                    socialAccounts: { ...formData.socialAccounts, instagram: e.target.value }
+                  })}
+                />
+                <Input
+                  placeholder="Profil LinkedIn"
+                  value={formData.socialAccounts.linkedin}
+                  onChange={(e) => setFormData({ 
+                    ...formData, 
+                    socialAccounts: { ...formData.socialAccounts, linkedin: e.target.value }
+                  })}
+                />
+              </div>
             </div>
 
             {/* Informations étudiant */}
@@ -222,9 +311,27 @@ const Signup = () => {
                 />
               </div>
             </div>
+            {/* Terms and Conditions */}
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="acceptTerms"
+                checked={formData.acceptTerms}
+                onCheckedChange={(checked) => setFormData({ ...formData, acceptTerms: checked as boolean })}
+              />
+              <Label htmlFor="acceptTerms" className="text-sm cursor-pointer">
+                J'accepte les{" "}
+                <a href="/terms" className="text-primary hover:underline">conditions générales d'utilisation</a>
+                {" "}et la{" "}
+                <a href="/privacy" className="text-primary hover:underline">politique de confidentialité</a>
+              </Label>
+            </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full" disabled={!formData.userType}>
+            <Button 
+              type="submit" 
+              className="w-full" 
+              disabled={!formData.userType || !formData.acceptTerms}
+            >
               Créer mon compte
             </Button>
             <p className="text-sm text-muted-foreground text-center">
