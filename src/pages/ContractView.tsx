@@ -106,56 +106,90 @@ const ContractView = () => {
     });
   };
 
-  const downloadContractPDF = () => {
-    // Generate PDF content
-    const pdfContent = `
-CONTRAT DE LOCATION
+  const downloadContractPDF = async () => {
+    try {
+      const { jsPDF } = await import('jspdf');
+      const html2canvas = (await import('html2canvas')).default;
 
-=== INFORMATIONS DU BIEN ===
-Propriété: ${contract.propertyTitle}
-Adresse: ${contract.propertyAddress}
-Surface: ${contract.propertyDetails.surface}
-Type: ${contract.propertyDetails.rooms}
+      // Create PDF content
+      const doc = new jsPDF();
+      
+      // Title
+      doc.setFontSize(18);
+      doc.text('CONTRAT DE LOCATION', 20, 20);
+      
+      doc.setFontSize(12);
+      let y = 40;
+      
+      // Property info
+      doc.text('=== INFORMATIONS DU BIEN ===', 20, y);
+      y += 10;
+      doc.text(`Propriété: ${contract.propertyTitle}`, 20, y);
+      y += 7;
+      doc.text(`Adresse: ${contract.propertyAddress}`, 20, y);
+      y += 7;
+      doc.text(`Surface: ${contract.propertyDetails.surface}`, 20, y);
+      y += 7;
+      doc.text(`Type: ${contract.propertyDetails.rooms}`, 20, y);
+      y += 15;
+      
+      // Parties
+      doc.text('=== PARTIES CONTRACTANTES ===', 20, y);
+      y += 10;
+      doc.text(`Propriétaire: ${contract.landlord}`, 20, y);
+      y += 7;
+      doc.text(`Email: ${contract.landlordEmail}`, 20, y);
+      y += 7;
+      doc.text(`Téléphone: ${contract.landlordPhone}`, 20, y);
+      y += 10;
+      doc.text(`Locataire: ${contract.tenant}`, 20, y);
+      y += 7;
+      doc.text(`Email: ${contract.tenantEmail}`, 20, y);
+      y += 7;
+      doc.text(`Téléphone: ${contract.tenantPhone}`, 20, y);
+      y += 15;
+      
+      // Financial terms
+      doc.text('=== TERMES FINANCIERS ===', 20, y);
+      y += 10;
+      doc.text(`Loyer mensuel: ${contract.monthlyRent} TND`, 20, y);
+      y += 7;
+      doc.text(`Caution: ${contract.deposit} TND`, 20, y);
+      y += 7;
+      doc.text(`Période: Du ${new Date(contract.startDate).toLocaleDateString('fr-FR')} au ${new Date(contract.endDate).toLocaleDateString('fr-FR')}`, 20, y);
+      y += 15;
+      
+      // Special terms
+      doc.text('=== CONDITIONS PARTICULIÈRES ===', 20, y);
+      y += 10;
+      const splitText = doc.splitTextToSize(contract.specialTerms, 170);
+      doc.text(splitText, 20, y);
+      y += splitText.length * 7 + 15;
+      
+      // Signatures
+      doc.text('=== SIGNATURES ===', 20, y);
+      y += 10;
+      doc.text(`Propriétaire: ${contract.ownerSignature || "Non signé"}`, 20, y);
+      y += 7;
+      doc.text(`Locataire: ${contract.tenantSignature || "Non signé"}`, 20, y);
+      y += 15;
+      
+      doc.text(`Document généré le ${new Date().toLocaleDateString('fr-FR')}`, 20, y);
+      
+      // Save PDF
+      doc.save(`contrat-${contract.propertyTitle.replace(/\s+/g, '-').toLowerCase()}.pdf`);
 
-=== PARTIES CONTRACTANTES ===
-Propriétaire: ${contract.landlord}
-Email: ${contract.landlordEmail}
-Téléphone: ${contract.landlordPhone}
-
-Locataire: ${contract.tenant}
-Email: ${contract.tenantEmail}
-Téléphone: ${contract.tenantPhone}
-
-=== TERMES FINANCIERS ===
-Loyer mensuel: ${contract.monthlyRent} TND
-Caution: ${contract.deposit} TND
-Période: Du ${new Date(contract.startDate).toLocaleDateString('fr-FR')} au ${new Date(contract.endDate).toLocaleDateString('fr-FR')}
-
-=== CONDITIONS PARTICULIÈRES ===
-${contract.specialTerms}
-
-=== SIGNATURES ===
-Propriétaire: ${contract.ownerSignature || "Non signé"}
-Locataire: ${contract.tenantSignature || "Non signé"}
-
-Document généré le ${new Date().toLocaleDateString('fr-FR')}
-    `;
-
-    // Create and download PDF
-    const blob = new Blob([pdfContent], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `contrat-${contract.propertyTitle.replace(/\s+/g, '-').toLowerCase()}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-
-    toast({
-      title: "Téléchargement",
-      description: "Le contrat a été téléchargé",
-    });
+      toast({
+        title: "Téléchargement PDF",
+        description: "Le contrat PDF a été téléchargé avec succès",
+      });
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Impossible de générer le PDF",
+        variant: "destructive"
+      });
+    }
   };
 
   if (!contract) {

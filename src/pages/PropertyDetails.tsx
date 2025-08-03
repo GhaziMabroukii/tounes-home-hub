@@ -426,16 +426,49 @@ const PropertyDetails = () => {
                     size="sm" 
                     className="flex-1"
                     onClick={() => {
-                      // Mock phone call
+                      const isAuth = localStorage.getItem("isAuthenticated");
+                      if (!isAuth) {
+                        toast({
+                          title: "Connexion requise",
+                          description: "Connectez-vous pour appeler.",
+                          variant: "destructive",
+                        });
+                        navigate("/login");
+                        return;
+                      }
                       window.open(`tel:${property.owner.phone}`, '_self');
                       toast({
                         title: "Appel en cours",
-                        description: `Appel vers ${property.owner.phone}`,
+                        description: `Numéro: ${property.owner.phone}`,
                       });
                     }}
                   >
                     <Phone className="h-3 w-3 mr-1" />
                     Appeler
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="flex-1"
+                    onClick={() => {
+                      const isAuth = localStorage.getItem("isAuthenticated");
+                      if (!isAuth) {
+                        toast({
+                          title: "Connexion requise",
+                          description: "Connectez-vous pour envoyer un email.",
+                          variant: "destructive",
+                        });
+                        navigate("/login");
+                        return;
+                      }
+                      toast({
+                        title: "Email",
+                        description: `Email: ${property.owner.email}`,
+                      });
+                    }}
+                  >
+                    <Mail className="h-3 w-3 mr-1" />
+                    Email
                   </Button>
                    <Button 
                      variant="outline" 

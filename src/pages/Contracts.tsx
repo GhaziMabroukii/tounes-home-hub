@@ -289,11 +289,11 @@ const Contracts = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Tous les statuts</SelectItem>
-                  <SelectItem value="Actif">Actif</SelectItem>
-                  <SelectItem value="En attente de signature">En attente de signature</SelectItem>
-                  <SelectItem value="En cours de négociation">En cours de négociation</SelectItem>
-                  <SelectItem value="Expiré">Expiré</SelectItem>
-                  <SelectItem value="Résilié">Résilié</SelectItem>
+                  <SelectItem value="actif">Actif</SelectItem>
+                  <SelectItem value="en-attente">En attente de signature</SelectItem>
+                  <SelectItem value="negociation">En cours de négociation</SelectItem>
+                  <SelectItem value="expire">Expiré</SelectItem>
+                  <SelectItem value="resilie">Résilié</SelectItem>
                 </SelectContent>
               </Select>
             </div>
