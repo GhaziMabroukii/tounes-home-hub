@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import {
   CheckCircle
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import SignatureCanvas from 'react-signature-canvas';
 
 const ContractView = () => {
   const { id } = useParams();
@@ -25,6 +26,7 @@ const ContractView = () => {
   const [signature, setSignature] = useState("");
   const [userType, setUserType] = useState("");
   const [showSignature, setShowSignature] = useState(false);
+  const sigRef = useRef<SignatureCanvas>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -341,7 +343,7 @@ const ContractView = () => {
               </CardContent>
             </Card>
 
-            {/* Signature Section */}
+            {/* Digital Signature Section */}
             {showSignature && (
               <Card className="glass-card border-primary">
                 <CardHeader>
@@ -351,25 +353,56 @@ const ContractView = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-2">
-                      Veuillez saisir votre nom complet pour confirmer votre signature
-                    </p>
-                    <Textarea
-                      value={signature}
-                      onChange={(e) => setSignature(e.target.value)}
-                      placeholder="Votre nom complet"
-                      rows={2}
+                  <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-4">
+                    <SignatureCanvas
+                      ref={sigRef}
+                      canvasProps={{
+                        width: 500,
+                        height: 200,
+                        className: 'signature-canvas w-full h-48 bg-background'
+                      }}
                     />
                   </div>
-                  <div className="flex space-x-2">
-                    <Button onClick={handleSignature}>
-                      <CheckCircle className="h-4 w-4 mr-2" />
-                      Confirmer la signature
+                  <div className="flex justify-between">
+                    <Button 
+                      variant="outline" 
+                      onClick={() => sigRef.current?.clear()}
+                    >
+                      Effacer
                     </Button>
-                    <Button variant="outline" onClick={() => setShowSignature(false)}>
-                      Annuler
-                    </Button>
+                    <div className="space-x-2">
+                      <Button variant="outline" onClick={() => setShowSignature(false)}>
+                        Annuler
+                      </Button>
+                      <Button onClick={() => {
+                        if (!sigRef.current || sigRef.current.isEmpty()) {
+                          toast({
+                            title: "Signature requise",
+                            description: "Veuillez signer avant de confirmer",
+                            variant: "destructive",
+                          });
+                          return;
+                        }
+
+                        const signatureData = sigRef.current.toDataURL();
+                        const updatedContract = {
+                          ...contract,
+                          [`${userType}Signature`]: signatureData,
+                          [`${userType}SignedAt`]: new Date().toISOString(),
+                          status: contract.ownerSignature && contract.tenantSignature ? "Signé" : "En cours"
+                        };
+
+                        setContract(updatedContract);
+                        setShowSignature(false);
+                        
+                        toast({
+                          title: "Contrat signé",
+                          description: "Votre signature a été ajoutée au contrat",
+                        });
+                      }}>
+                        Confirmer la signature
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

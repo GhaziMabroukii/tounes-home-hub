@@ -335,21 +335,27 @@ const AddProperty = () => {
                   />
                 </div>
 
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  onClick={handleLocationClick}
-                  className="w-full"
-                >
-                  <MapPin className="h-4 w-4 mr-2" />
-                  Définir la position exacte
-                </Button>
-                
-                {formData.location.lat !== 0 && (
-                  <p className="text-sm text-success">
-                    ✓ Position définie: {formData.location.lat.toFixed(4)}, {formData.location.lng.toFixed(4)}
-                  </p>
-                )}
+                <div className="space-y-4">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={handleLocationClick}
+                    className="w-full"
+                  >
+                    <MapPin className="h-4 w-4 mr-2" />
+                    Définir la position exacte
+                  </Button>
+                  
+                  {formData.location.lat !== 0 && (
+                    <p className="text-sm text-success">
+                      ✓ Position définie: {formData.location.lat.toFixed(4)}, {formData.location.lng.toFixed(4)}
+                    </p>
+                  )}
+                  
+                  <div className="text-xs text-muted-foreground">
+                    Note: La position sur carte est prioritaire si elle est définie. Sinon, l'adresse manuelle est utilisée.
+                  </div>
+                </div>
               </CardContent>
             </Card>
 

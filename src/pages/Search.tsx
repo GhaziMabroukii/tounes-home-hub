@@ -29,6 +29,7 @@ const Search = () => {
   const [location, setLocation] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [userLocation, setUserLocation] = useState<GeolocationPosition | null>(null);
+  const [categoryFilter, setCategoryFilter] = useState("");
   const navigate = useNavigate();
 
   // Mock properties data
@@ -190,6 +191,24 @@ const Search = () => {
                 />
               </div>
             </div>
+            {/* Category Filters */}
+            <div className="flex flex-wrap gap-2">
+              <Button 
+                variant={categoryFilter === "student" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setCategoryFilter(categoryFilter === "student" ? "" : "student")}
+              >
+                Pour étudiants
+              </Button>
+              <Button 
+                variant={categoryFilter === "family" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setCategoryFilter(categoryFilter === "family" ? "" : "family")}
+              >
+                Pour familles
+              </Button>
+            </div>
+
             <Button 
               variant="outline" 
               onClick={handleLocationSearch}
@@ -198,6 +217,17 @@ const Search = () => {
               <MapPin className="h-4 w-4" />
               <span>📍 Me localiser</span>
             </Button>
+            
+            {/* Via Map Link */}
+            <Button 
+              variant="outline" 
+              onClick={() => navigate("/map")}
+              className="w-full md:w-auto"
+            >
+              <MapPin className="h-4 w-4 mr-2" />
+              Via Maps
+            </Button>
+            
             <Button 
               variant="outline" 
               onClick={() => setShowFilters(!showFilters)}

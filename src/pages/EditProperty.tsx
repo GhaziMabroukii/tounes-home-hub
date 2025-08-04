@@ -15,7 +15,9 @@ import {
   Wifi,
   Car,
   Plus,
-  X
+  X,
+  MapPin,
+  Upload
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -31,9 +33,11 @@ const EditProperty = () => {
     rooms: "",
     bathrooms: "",
     address: "",
+    location: { lat: 0, lng: 0 },
     amenities: [] as string[],
     rules: [] as string[],
     images: [] as File[],
+    status: "Disponible",
     pricing: {
       deposit: "",
       fees: "",
@@ -144,6 +148,45 @@ const EditProperty = () => {
     setFormData(prev => ({
       ...prev,
       rules: prev.rules.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleLocationClick = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          handleInputChange('location', {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+          toast({
+            title: "Localisation mise à jour",
+            description: "Position actuelle utilisée",
+          });
+        },
+        () => {
+          toast({
+            title: "Erreur de géolocalisation",
+            description: "Impossible d'obtenir votre position",
+            variant: "destructive",
+          });
+        }
+      );
+    }
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    setFormData(prev => ({
+      ...prev,
+      images: [...prev.images, ...files].slice(0, 10)
+    }));
+  };
+
+  const removeImage = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index)
     }));
   };
 
@@ -295,6 +338,22 @@ const EditProperty = () => {
                     required
                   />
                 </div>
+
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={handleLocationClick}
+                  className="w-full"
+                >
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Définir la position exacte
+                </Button>
+                
+                {formData.location.lat !== 0 && (
+                  <p className="text-sm text-success">
+                    ✓ Position définie: {formData.location.lat.toFixed(4)}, {formData.location.lng.toFixed(4)}
+                  </p>
+                )}
               </CardContent>
             </Card>
 
@@ -357,10 +416,70 @@ const EditProperty = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Images */}
+            <Card className="glass-card">
+              <CardHeader>
+                <CardTitle>Photos</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="images">Ajouter des photos</Label>
+                  <Input
+                    id="images"
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                  />
+                </div>
+
+                {formData.images.length > 0 && (
+                  <div className="grid grid-cols-3 gap-4">
+                    {formData.images.map((image, index) => (
+                      <div key={index} className="relative">
+                        <div className="aspect-square bg-muted rounded-lg flex items-center justify-center">
+                          <Upload className="h-6 w-6 text-muted-foreground" />
+                        </div>
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="absolute -top-2 -right-2"
+                          onClick={() => removeImage(index)}
+                        >
+                          <X className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
+            {/* Status */}
+            <Card className="glass-card">
+              <CardHeader>
+                <CardTitle>Statut du bien</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Select value={formData.status} onValueChange={(value) => handleInputChange('status', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Sélectionner le statut" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Disponible">Disponible</SelectItem>
+                    <SelectItem value="Occupé">Occupé</SelectItem>
+                    <SelectItem value="En rénovation">En rénovation</SelectItem>
+                    <SelectItem value="En attente">En attente</SelectItem>
+                    <SelectItem value="Indisponible">Indisponible</SelectItem>
+                  </SelectContent>
+                </Select>
+              </CardContent>
+            </Card>
             {/* Pricing */}
             <Card className="glass-card">
               <CardHeader>

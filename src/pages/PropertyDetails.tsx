@@ -22,7 +22,8 @@ import {
   Mail,
   GraduationCap,
   Shield,
-  Camera
+  Camera,
+  FileText
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import PropertyReviews from "@/components/PropertyReviews";
@@ -130,6 +131,38 @@ const PropertyDetails = () => {
     toast({
       title: isFavorite ? "Retiré des favoris" : "Ajouté aux favoris",
       description: isFavorite ? "Bien retiré de vos favoris" : "Bien ajouté à vos favoris",
+    });
+  };
+
+  const requestContract = (propertyId: number) => {
+    const isAuth = localStorage.getItem("isAuthenticated");
+    if (!isAuth) {
+      toast({
+        title: "Connexion requise",
+        description: "Connectez-vous pour demander un contrat.",
+        variant: "destructive",
+      });
+      navigate("/login");
+      return;
+    }
+
+    // Send notification to owner
+    const notifications = JSON.parse(localStorage.getItem("notifications") || "[]");
+    const newNotification = {
+      id: Date.now(),
+      type: "contract_request",
+      message: `Demande de contrat pour ${property.title}`,
+      from: JSON.parse(localStorage.getItem("userProfile") || "{}").name,
+      propertyId: propertyId,
+      timestamp: new Date().toISOString(),
+      read: false
+    };
+    notifications.push(newNotification);
+    localStorage.setItem("notifications", JSON.stringify(notifications));
+
+    toast({
+      title: "Demande envoyée",
+      description: "Le propriétaire a été notifié de votre demande de contrat",
     });
   };
 
@@ -319,6 +352,14 @@ const PropertyDetails = () => {
                   <Button onClick={handleContact} className="w-full">
                     <MessageSquare className="h-4 w-4 mr-2" />
                     Contacter le propriétaire
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => requestContract(property.id)}
+                  >
+                    <FileText className="h-4 w-4 mr-2" />
+                    Demander un contrat
                   </Button>
                   <Button 
                     variant="outline" 

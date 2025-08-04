@@ -344,16 +344,14 @@ const ManageProperties = () => {
                       Modifier
                     </Button>
 
-                    {property.status === "Occupé" && (
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => generateContract(property.id)}
-                      >
-                        <FileText className="h-3 w-3 mr-1" />
-                        Contrat
-                      </Button>
-                    )}
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => navigate(`/create-contract?propertyId=${property.id}`)}
+                    >
+                      <FileText className="h-3 w-3 mr-1" />
+                      Contrat
+                    </Button>
 
                     <Button 
                       variant="outline" 
