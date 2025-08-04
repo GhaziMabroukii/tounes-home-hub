@@ -51,40 +51,39 @@ const EditProperty = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if user is authenticated and is an owner
-    const isAuth = localStorage.getItem("isAuthenticated");
-    const userType = localStorage.getItem("userType");
-    
-    if (!isAuth) {
-      navigate("/login");
-      return;
-    }
-    
-    if (userType !== "owner") {
-      toast({
-        title: "Accès refusé",
-        description: "Seuls les propriétaires peuvent modifier des biens",
-        variant: "destructive",
-      });
-      navigate("/dashboard");
-      return;
-    }
-
-    // Load property data
+    // Load property data (with mock data if needed)
     const properties = JSON.parse(localStorage.getItem("userProperties") || "[]");
-    const property = properties.find((p: any) => p.id === parseInt(id || "0"));
+    let property = properties.find((p: any) => p.id === parseInt(id || "0"));
     
-    if (property) {
-      setFormData(property);
-    } else {
-      toast({
-        title: "Bien introuvable",
-        description: "Le bien demandé n'existe pas",
-        variant: "destructive",
-      });
-      navigate("/manage-properties");
+    // If property doesn't exist, create mock data for testing
+    if (!property) {
+      property = {
+        id: parseInt(id || "0"),
+        title: "Studio moderne près INSAT",
+        type: "studio",
+        description: "Studio entièrement meublé et équipé, proche des transports en commun",
+        price: "450",
+        priceType: "mois",
+        surface: "35",
+        rooms: "1",
+        bathrooms: "1",
+        address: "Rue Ibn Khaldoun, Raoued 2088",
+        location: { lat: 36.8065, lng: 10.1815 },
+        amenities: ["wifi", "furnished", "parking"],
+        rules: ["Non fumeur", "Pas d'animaux"],
+        images: [],
+        status: "Disponible",
+        pricing: {
+          deposit: "450",
+          fees: "50",
+          utilities: "",
+          utilitiesIncluded: false
+        }
+      };
     }
-  }, [id, navigate, toast]);
+    
+    setFormData(property);
+  }, [id]);
 
   const availableAmenities = [
     { id: "wifi", label: "Wi-Fi gratuit", icon: <Wifi className="h-4 w-4" /> },
